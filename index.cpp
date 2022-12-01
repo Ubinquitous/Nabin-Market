@@ -8,7 +8,21 @@ int select;
 
 /* function */
 
+void insertItem()
+{
+    printf("\n물품 추가 ───────\n\n");
+    printf("추가할 물품명을 입력하세요 : ");
+    /* scanf */
+    printf("추가할 물품명을 입력하세요 : ");
+
+    printf("물품의 가격을 입력하세요 : ");
+    /* scanf */
+
+    printf("물품의 등록일을 입력하세요 : ");
+}
+
 /* main function */
+
 int main()
 {
     printf("Nabin Market ───────\n\n");
@@ -36,7 +50,7 @@ int main()
     }
     else if (select == 2)
     {
-        /* insertItem(); */
+        insertItem();
     }
     else if (select == 3)
     {
