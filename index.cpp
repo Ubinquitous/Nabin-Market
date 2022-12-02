@@ -1,92 +1,187 @@
 #include <stdio.h>
 #include <malloc.h>
+#include <unistd.h>
 int select;
 
 /* define */
-typedef struct Node {
+typedef struct Node
+{
     char name[50];
     int price;
     char date[20];
-    struct Node * next;
-}Node;
+    int category;
+    struct Node *next;
+} Node;
 
 /* variable define*/
- Node *head =NULL;//Ã³À½
- int count;
-/* function */
 
-Node* insertItem()
+Node *head = (Node *)malloc(sizeof(Node));
+void init()
 {
-    Node *newNode = ( Node *)malloc(sizeof( Node));
-    printf("\n¹°Ç° Ãß°¡ ¦¡¦¡¦¡¦¡¦¡¦¡¦¡\n\n");
+    head->next = NULL;
+}
 
-    printf("Ãß°¡ÇÒ ¹°Ç°¸íÀ» ÀÔ·ÂÇÏ¼¼¿ä : ");
-    scanf("%s",  (newNode->name));
+/* screen clear function */
 
-    printf("¹°Ç°ÀÇ °¡°İÀ» ÀÔ·ÂÇÏ¼¼¿ä : ");
+void clearScreen()
+{
+    const char *CLEAR_SCREEN_ANSI = "\e[1;1H\e[2J";
+    write(STDOUT_FILENO, CLEAR_SCREEN_ANSI, 12);
+}
+
+/* insert item function */
+
+Node *insertItem()
+{
+    Node *newNode = (Node *)malloc(sizeof(Node));
+    printf("\në¬¼í’ˆ ì¶”ê°€ â”€â”€â”€â”€â”€â”€â”€\n\n");
+
+    printf("ì¶”ê°€í•  ë¬¼í’ˆëª…ì„ ì…ë ¥í•˜ì„¸ìš” : ");
+    scanf("%s", (newNode->name));
+
+    printf("ë¬¼í’ˆì˜ ê°€ê²©ì„ ì…ë ¥í•˜ì„¸ìš” : ");
     scanf("%d", &(newNode->price));
 
-    printf("¹°Ç°ÀÇ µî·ÏÀÏÀ» ÀÔ·ÂÇÏ¼¼¿ä : ");
+    printf("ë¬¼í’ˆì˜ ë“±ë¡ì¼ì„ ì…ë ¥í•˜ì„¸ìš” : ");
     scanf("%s", (newNode->date));
 
-			newNode->next = NULL;
+    printf("ë¬¼í’ˆì˜ ì¹´í…Œê³ ë¦¬ë¥¼ ì •í•´ì£¼ì„¸ìš” :: \n");
+    printf(" * ìŒë£Œ ( 1ì„ ëˆ„ë¥´ì„¸ìš” )\n");
+    printf(" * ê³¼ì ( 2ë¥¼ ëˆ„ë¥´ì„¸ìš” )\n");
+    printf(" * ê³¼ì¼ ( 3ì„ ëˆ„ë¥´ì„¸ìš” )\n");
+    printf(" * ê³ ê¸° ( 4ë¥¼ ëˆ„ë¥´ì„¸ìš” )\n");
+    printf(" * ë¼ë©´ ( 5ë¥¼ ëˆ„ë¥´ì„¸ìš” )\n");
 
-			if (head == NULL)
-			{
-				head = newNode;
-			}
-			else
-			{
-				struct Node* nextNode = head;
-				while (nextNode->next != NULL)
-					nextNode = nextNode->next;
+    while (1)
+    {
+        printf("ì¹´í…Œê³ ë¦¬ë¥¼ ì„ íƒí•˜ì„¸ìš” : ");
+        scanf("%d", &(newNode->category));
+        if ((newNode->category) <= 5 && (newNode->category) >= 1)
+        {
+            printf("%s(ì´)ê°€ ì¶”ê°€ë˜ì—ˆìŠµë‹ˆë‹¤!\n\n", (newNode->name));
+            break;
+        }
+        else
+        {
+            printf("ì˜ëª»ëœ ê°’ì…ë‹ˆë‹¤! ë‹¤ì‹œ ì…ë ¥í•´ì£¼ì„¸ìš”.\n");
+        }
+    }
 
-				nextNode->next = newNode;
+    newNode->next = NULL;
 
-			}
-			return head;
+    if (head->next == NULL)
+    {
+        head->next = newNode;
+    }
+    else
+    {
+        Node *nextNode = head;
+        while (nextNode->next != NULL)
+            nextNode = nextNode->next;
+
+        nextNode->next = newNode;
+    }
+    return newNode;
+}
+
+/* show all item function */
+
+void showAllItem(Node *heads)
+{
+    clearScreen();
+    int choice = 0;
+    printf("ë¬¼í’ˆ ì¡°íšŒ í˜ì´ì§€ â”€â”€â”€â”€â”€â”€â”€\n\n");
+    printf(" * ë“±ë¡ì¼ìˆœ ì¡°íšŒ ( 1ì„ ëˆ„ë¥´ì„¸ìš” )\n");
+    printf(" * ê°€ê²©ìˆœ ì¡°íšŒ ( 2ë¥¼ ëˆ„ë¥´ì„¸ìš” )\n");
+    printf(" * ì¹´í…Œê³ ë¦¬ë³„ ì¡°íšŒ ( 3ì„ ëˆ„ë¥´ì„¸ìš” )\n");
+    printf("ë©”ë‰´ë¥¼ ì„ íƒí•˜ì„¸ìš” : ");
+    scanf("%d", &choice);
+
+    if (choice == 1)
+    {
+        printf("ë¬¼í’ˆëª…\t\t\tê°€ê²©\t\t\të“±ë¡ì¼ì\t\t\tì¹´í…Œê³ ë¦¬\n");
+
+        /* ë°°ì—´ì— ì‚½ì… í›„ í€µì •ë ¬ í•„ìš” */
+
+        heads = heads->next;
+        while (heads != NULL)
+        {
+            if (heads->category == 1)
+            {
+                /* ìŒë£Œ */
+            }
+            else if (heads->category == 2)
+            {
+                /* ê³¼ì */
+            }
+            else if (heads->category == 3)
+            {
+                /* ê³¼ì¼ */
+            }
+            else if (heads->category == 4)
+            {
+                /* ê³ ê¸° */
+            }
+            else if (heads->category == 5)
+            {
+                /* ë¼ë©´ */
+            }
+            printf("%s\t\t\t%d\t\t\t%s\t\t\t%s\n", heads->name, heads->price, heads->date, "TEST");
+            heads = heads->next;
+        }
+        return;
+    }
 }
 
 /* main function */
 
 int main()
 {
-    printf("Nabin Market ¦¡¦¡¦¡¦¡¦¡¦¡¦¡\n\n");
+    init();
+    printf("Nabin Market â”€â”€â”€â”€â”€â”€â”€\n\n");
 
-    printf(" * ³ªºó ¸¶ÄÏ¿¡ ¿À½Å °ÍÀ» È¯¿µÇÕ´Ï´Ù. \n");
-    printf(" * ³ªºó ¸¶ÄÏÀº C++·Î ±¸ÇöÇÑ ¸ÅÀå ¹°Ç° °ü¸® ÇÁ·Î±×·¥ÀÔ´Ï´Ù. \n\n");
+    printf(" * ë‚˜ë¹ˆ ë§ˆì¼“ì— ì˜¤ì‹  ê²ƒì„ í™˜ì˜í•©ë‹ˆë‹¤. \n");
+    printf(" * ë‚˜ë¹ˆ ë§ˆì¼“ì€ C++ë¡œ êµ¬í˜„í•œ ë§¤ì¥ ë¬¼í’ˆ ê´€ë¦¬ í”„ë¡œê·¸ë¨ì…ë‹ˆë‹¤. \n\n");
 
-    printf("³ªºó ¸¶ÄÏ ÇöÈ² ¦¡¦¡¦¡¦¡¦¡\n\n");
-
-    printf(" * ³ªºó ¸¶ÄÏ ÇöÀç ¹°Ç° °³¼ö (µ¥ÀÌÅÍ °³¼ö) : %d\n", 17);
-    printf(" * ³ªºó ¸¶ÄÏ ÇöÀç Áø¿­ °ø°£ (¸Ş¸ğ¸® Å©±â) : %d\n", 17 * 4);
-
-    printf("³ªºó ¸¶ÄÏ ¸Ş´º ¦¡¦¡¦¡¦¡¦¡\n\n");
-
-    printf(" * ¹°Ç° ¸ñ·Ï Á¶È¸ ( 1À» ´©¸£¼¼¿ä )\n");
-    printf(" * ¸¶ÄÏ ¹°Ç° Ãß°¡ ( 2¸¦ ´©¸£¼¼¿ä )\n");
-    printf(" * ¸¶ÄÏ ¹°Ç° »èÁ¦ ( 3À» ´©¸£¼¼¿ä )\n");
-    printf(" * ¹°Ç° Âò & ±¸¸Å ( 4¸¦ ´©¸£¼¼¿ä )\n\n");
-    printf("¸Ş´º¸¦ ¼±ÅÃÇÏ¼¼¿ä : ");
-    scanf("%d", &select);
-
-    if (select == 1)
+    while (1)
     {
-        /* showAllItem(); */
-    }
-    else if (select == 2)
-    {
-        insertItem();
-    }
-    else if (select == 3)
-    {
-        /* deleteItem(); */
-    }
-    else if (select == 4)
-    {
-        /* selectItem(); */
-    }
+        int count = 0;
+        struct Node *countHead = head;
+        while (countHead != NULL)
+        {
+            count++;
+            countHead = countHead->next;
+        }
 
-    printf("%s",  &head->name);
+        printf("ë‚˜ë¹ˆ ë§ˆì¼“ í˜„í™© â”€â”€â”€â”€â”€\n\n");
 
+        printf(" * ë‚˜ë¹ˆ ë§ˆì¼“ í˜„ì¬ ë¬¼í’ˆ ê°œìˆ˜ (ë°ì´í„° ê°œìˆ˜) : %d\n", count - 1);
+        printf(" * ë‚˜ë¹ˆ ë§ˆì¼“ í˜„ì¬ ì§„ì—´ ê³µê°„ (ë©”ëª¨ë¦¬ í¬ê¸°) : %d\n", (count - 1) * (sizeof(head)));
+
+        printf("ë‚˜ë¹ˆ ë§ˆì¼“ ë©”ë‰´ â”€â”€â”€â”€â”€\n\n");
+
+        printf(" * ë¬¼í’ˆ ëª©ë¡ ì¡°íšŒ ( 1ì„ ëˆ„ë¥´ì„¸ìš” )\n");
+        printf(" * ë§ˆì¼“ ë¬¼í’ˆ ì¶”ê°€ ( 2ë¥¼ ëˆ„ë¥´ì„¸ìš” )\n");
+        printf(" * ë§ˆì¼“ ë¬¼í’ˆ ì‚­ì œ ( 3ì„ ëˆ„ë¥´ì„¸ìš” )\n");
+        printf(" * ë¬¼í’ˆ ì°œ & êµ¬ë§¤ ( 4ë¥¼ ëˆ„ë¥´ì„¸ìš” )\n\n");
+        printf("ë©”ë‰´ë¥¼ ì„ íƒí•˜ì„¸ìš” : ");
+        scanf("%d", &select);
+
+        if (select == 1)
+        {
+            showAllItem(head);
+        }
+        else if (select == 2)
+        {
+            insertItem();
+        }
+        else if (select == 3)
+        {
+            /* deleteItem(); */
+        }
+        else if (select == 4)
+        {
+            /* selectItem(); */
+        }
+    }
 }
