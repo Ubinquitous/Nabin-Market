@@ -1,47 +1,73 @@
 #include <stdio.h>
-
+#include <malloc.h>
 int select;
 
 /* define */
+typedef struct Node {
+    char name[50];
+    int price;
+    char date[20];
+    struct Node * next;
+}Node;
 
 /* variable define*/
-
+ Node *head =NULL;//Ã³À½
+ int count;
 /* function */
 
-void insertItem()
+Node* insertItem()
 {
-    printf("\në¬¼í’ˆ ì¶”ê°€ â”€â”€â”€â”€â”€â”€â”€\n\n");
-    printf("ì¶”ê°€í•  ë¬¼í’ˆëª…ì„ ìž…ë ¥í•˜ì„¸ìš” : ");
-    /* scanf */
-    printf("ì¶”ê°€í•  ë¬¼í’ˆëª…ì„ ìž…ë ¥í•˜ì„¸ìš” : ");
+    Node *newNode = ( Node *)malloc(sizeof( Node));
+    printf("\n¹°Ç° Ãß°¡ ¦¡¦¡¦¡¦¡¦¡¦¡¦¡\n\n");
 
-    printf("ë¬¼í’ˆì˜ ê°€ê²©ì„ ìž…ë ¥í•˜ì„¸ìš” : ");
-    /* scanf */
+    printf("Ãß°¡ÇÒ ¹°Ç°¸íÀ» ÀÔ·ÂÇÏ¼¼¿ä : ");
+    scanf("%s",  (newNode->name));
 
-    printf("ë¬¼í’ˆì˜ ë“±ë¡ì¼ì„ ìž…ë ¥í•˜ì„¸ìš” : ");
+    printf("¹°Ç°ÀÇ °¡°ÝÀ» ÀÔ·ÂÇÏ¼¼¿ä : ");
+    scanf("%d", &(newNode->price));
+
+    printf("¹°Ç°ÀÇ µî·ÏÀÏÀ» ÀÔ·ÂÇÏ¼¼¿ä : ");
+    scanf("%s", (newNode->date));
+
+			newNode->next = NULL;
+
+			if (head == NULL)
+			{
+				head = newNode;
+			}
+			else
+			{
+				struct Node* nextNode = head;
+				while (nextNode->next != NULL)
+					nextNode = nextNode->next;
+
+				nextNode->next = newNode;
+
+			}
+			return head;
 }
 
 /* main function */
 
 int main()
 {
-    printf("Nabin Market â”€â”€â”€â”€â”€â”€â”€\n\n");
+    printf("Nabin Market ¦¡¦¡¦¡¦¡¦¡¦¡¦¡\n\n");
 
-    printf(" * ë‚˜ë¹ˆ ë§ˆì¼“ì— ì˜¤ì‹  ê²ƒì„ í™˜ì˜í•©ë‹ˆë‹¤. \n");
-    printf(" * ë‚˜ë¹ˆ ë§ˆì¼“ì€ C++ë¡œ êµ¬í˜„í•œ ë§¤ìž¥ ë¬¼í’ˆ ê´€ë¦¬ í”„ë¡œê·¸ëž¨ìž…ë‹ˆë‹¤. \n\n");
+    printf(" * ³ªºó ¸¶ÄÏ¿¡ ¿À½Å °ÍÀ» È¯¿µÇÕ´Ï´Ù. \n");
+    printf(" * ³ªºó ¸¶ÄÏÀº C++·Î ±¸ÇöÇÑ ¸ÅÀå ¹°Ç° °ü¸® ÇÁ·Î±×·¥ÀÔ´Ï´Ù. \n\n");
 
-    printf("ë‚˜ë¹ˆ ë§ˆì¼“ í˜„í™© â”€â”€â”€â”€â”€\n\n");
+    printf("³ªºó ¸¶ÄÏ ÇöÈ² ¦¡¦¡¦¡¦¡¦¡\n\n");
 
-    printf(" * ë‚˜ë¹ˆ ë§ˆì¼“ í˜„ìž¬ ë¬¼í’ˆ ê°œìˆ˜ (ë°ì´í„° ê°œìˆ˜) : %d\n", 17);
-    printf(" * ë‚˜ë¹ˆ ë§ˆì¼“ í˜„ìž¬ ì§„ì—´ ê³µê°„ (ë©”ëª¨ë¦¬ í¬ê¸°) : %d\n", 17 * 4);
+    printf(" * ³ªºó ¸¶ÄÏ ÇöÀç ¹°Ç° °³¼ö (µ¥ÀÌÅÍ °³¼ö) : %d\n", 17);
+    printf(" * ³ªºó ¸¶ÄÏ ÇöÀç Áø¿­ °ø°£ (¸Þ¸ð¸® Å©±â) : %d\n", 17 * 4);
 
-    printf("ë‚˜ë¹ˆ ë§ˆì¼“ ë©”ë‰´ â”€â”€â”€â”€â”€\n\n");
+    printf("³ªºó ¸¶ÄÏ ¸Þ´º ¦¡¦¡¦¡¦¡¦¡\n\n");
 
-    printf(" * ë¬¼í’ˆ ëª©ë¡ ì¡°íšŒ ( 1ì„ ëˆ„ë¥´ì„¸ìš” )\n");
-    printf(" * ë§ˆì¼“ ë¬¼í’ˆ ì¶”ê°€ ( 2ë¥¼ ëˆ„ë¥´ì„¸ìš” )\n");
-    printf(" * ë§ˆì¼“ ë¬¼í’ˆ ì‚­ì œ ( 3ì„ ëˆ„ë¥´ì„¸ìš” )\n");
-    printf(" * ë¬¼í’ˆ ì°œ & êµ¬ë§¤ ( 4ë¥¼ ëˆ„ë¥´ì„¸ìš” )\n\n");
-    printf("ë©”ë‰´ë¥¼ ì„ íƒí•˜ì„¸ìš” : ");
+    printf(" * ¹°Ç° ¸ñ·Ï Á¶È¸ ( 1À» ´©¸£¼¼¿ä )\n");
+    printf(" * ¸¶ÄÏ ¹°Ç° Ãß°¡ ( 2¸¦ ´©¸£¼¼¿ä )\n");
+    printf(" * ¸¶ÄÏ ¹°Ç° »èÁ¦ ( 3À» ´©¸£¼¼¿ä )\n");
+    printf(" * ¹°Ç° Âò & ±¸¸Å ( 4¸¦ ´©¸£¼¼¿ä )\n\n");
+    printf("¸Þ´º¸¦ ¼±ÅÃÇÏ¼¼¿ä : ");
     scanf("%d", &select);
 
     if (select == 1)
@@ -60,4 +86,7 @@ int main()
     {
         /* selectItem(); */
     }
+
+    printf("%s",  &head->name);
+
 }
