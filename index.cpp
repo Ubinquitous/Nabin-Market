@@ -8,7 +8,7 @@ typedef struct Node
 {
     char name[50];
     int price;
-    char date[20];
+    int date;
     int category;
     struct Node *next;
 } Node;
@@ -34,37 +34,41 @@ void clearScreen()
 Node *insertItem()
 {
     Node *newNode = (Node *)malloc(sizeof(Node));
+    clearScreen();
     printf("\n물품 추가 ───────\n\n");
 
-    printf("추가할 물품명을 입력하세요 : ");
-    scanf("%s", (newNode->name));
-
-    printf("물품의 가격을 입력하세요 : ");
-    scanf("%d", &(newNode->price));
-
-    printf("물품의 등록일을 입력하세요 : ");
-    scanf("%s", (newNode->date));
-
-    printf("물품의 카테고리를 정해주세요 :: \n");
-    printf(" * 음료 ( 1을 누르세요 )\n");
-    printf(" * 과자 ( 2를 누르세요 )\n");
-    printf(" * 과일 ( 3을 누르세요 )\n");
-    printf(" * 고기 ( 4를 누르세요 )\n");
-    printf(" * 라면 ( 5를 누르세요 )\n");
-
-    while (1)
+    try
     {
+        printf("추가할 물품명을 입력하세요 : ");
+        scanf("%s", (newNode->name));
+
+        printf("물품의 가격을 입력하세요 : ");
+        scanf("%d", &(newNode->price));
+
+        printf("물품의 등록일을 입력하세요 (ex: 2022년 11월 7일 = 221107) : ");
+        scanf("%d", &(newNode->date));
+
+        printf("물품의 카테고리를 정해주세요 :: \n");
+        printf(" * 음료 ( 1을 누르세요 )\n");
+        printf(" * 과자 ( 2를 누르세요 )\n");
+        printf(" * 과일 ( 3을 누르세요 )\n");
+        printf(" * 고기 ( 4를 누르세요 )\n");
+        printf(" * 라면 ( 5를 누르세요 )\n");
         printf("카테고리를 선택하세요 : ");
         scanf("%d", &(newNode->category));
+
         if ((newNode->category) <= 5 && (newNode->category) >= 1)
         {
             printf("%s(이)가 추가되었습니다!\n\n", (newNode->name));
-            break;
         }
         else
         {
-            printf("잘못된 값입니다! 다시 입력해주세요.\n");
+            throw 0;
         }
+    }
+    catch (int error)
+    {
+        printf("오류! 잘못된 입력값입니다. 다시 시도해주세요.\n");
     }
 
     newNode->next = NULL;
@@ -96,40 +100,156 @@ void showAllItem(Node *heads)
     printf(" * 카테고리별 조회 ( 3을 누르세요 )\n");
     printf("메뉴를 선택하세요 : ");
     scanf("%d", &choice);
+    clearScreen();
+    /* 등록일순 조회 */
 
     if (choice == 1)
     {
-        printf("물품명\t\t\t가격\t\t\t등록일자\t\t\t카테고리\n");
-
-        /* 배열에 삽입 후 퀵정렬 필요 */
+        Node *DateSortItem[1000];
+        Node *temp[2];
+        int i = 0, count = 0;
+        struct Node *countHead = head;
 
         heads = heads->next;
         while (heads != NULL)
         {
-            if (heads->category == 1)
+            DateSortItem[i] = heads;
+            heads = heads->next;
+            i++;
+        }
+        while (countHead != NULL)
+        {
+            count++;
+            countHead = countHead->next;
+        }
+        for (int i = count - 2; i > 0; i--)
+        {
+            for (int j = 0; j < i; j++)
             {
-                /* 음료 */
+                if (DateSortItem[j]->date > DateSortItem[j + 1]->date)
+                {
+                    temp[0] = DateSortItem[j];
+                    DateSortItem[j] = DateSortItem[j + 1];
+                    DateSortItem[j + 1] = temp[0];
+                }
             }
-            else if (heads->category == 2)
+        }
+        printf("물품명, 물품 가격, 등록일, 카테고리\n");
+        for (int i = 0; i < count - 1; i++)
+        {
+            if (DateSortItem[i]->category == 1)
             {
-                /* 과자 */
+                printf("%s, %d, %02d-%02d-%02d, 음료\n", DateSortItem[i]->name, DateSortItem[i]->price, DateSortItem[i]->date / 10000, DateSortItem[i]->date / 100 % 100, DateSortItem[i]->date % 100, DateSortItem[i]->category);
             }
-            else if (heads->category == 3)
+            else if (DateSortItem[i]->category == 2)
             {
-                /* 과일 */
+                printf("%s, %d, %02d-%02d-%02d, 과자\n", DateSortItem[i]->name, DateSortItem[i]->price, DateSortItem[i]->date / 10000, DateSortItem[i]->date / 100 % 100, DateSortItem[i]->date % 100, DateSortItem[i]->category);
             }
-            else if (heads->category == 4)
+            else if (DateSortItem[i]->category == 3)
             {
-                /* 고기 */
+                printf("%s, %d, %02d-%02d-%02d, 과일\n", DateSortItem[i]->name, DateSortItem[i]->price, DateSortItem[i]->date / 10000, DateSortItem[i]->date / 100 % 100, DateSortItem[i]->date % 100, DateSortItem[i]->category);
             }
-            else if (heads->category == 5)
+            else if (DateSortItem[i]->category == 4)
             {
-                /* 라면 */
+                printf("%s, %d, %02d-%02d-%02d, 고기\n", DateSortItem[i]->name, DateSortItem[i]->price, DateSortItem[i]->date / 10000, DateSortItem[i]->date / 100 % 100, DateSortItem[i]->date % 100, DateSortItem[i]->category);
             }
-            printf("%s\t\t\t%d\t\t\t%s\t\t\t%s\n", heads->name, heads->price, heads->date, "TEST");
+            else if (DateSortItem[i]->category == 5)
+            {
+                printf("%s, %d, %02d-%02d-%02d, 라면\n", DateSortItem[i]->name, DateSortItem[i]->price, DateSortItem[i]->date / 10000, DateSortItem[i]->date / 100 % 100, DateSortItem[i]->date % 100, DateSortItem[i]->category);
+            }
+        }
+        printf("\n\n** 확인하셨다면 아무 키나 입력해주세요. **\n");
+        char a[300];
+        scanf("%s", &a);
+    }
+    /* 가격순 조회 */
+    else if (choice == 2)
+    {
+        Node *PriceSortItem[1000];
+        Node *temp[2];
+        int i = 0, count = 0;
+        struct Node *countHead = head;
+
+        heads = heads->next;
+        while (heads != NULL)
+        {
+            PriceSortItem[i] = heads;
+            heads = heads->next;
+            i++;
+        }
+        while (countHead != NULL)
+        {
+            count++;
+            countHead = countHead->next;
+        }
+        for (int i = count - 2; i > 0; i--)
+        {
+            for (int j = 0; j < i; j++)
+            {
+                if (PriceSortItem[j]->price > PriceSortItem[j + 1]->price)
+                {
+                    temp[0] = PriceSortItem[j];
+                    PriceSortItem[j] = PriceSortItem[j + 1];
+                    PriceSortItem[j + 1] = temp[0];
+                }
+            }
+        }
+        printf("물품명, 물품 가격, 등록일, 카테고리\n");
+        for (int i = 0; i < count - 1; i++)
+        {
+            if (PriceSortItem[i]->category == 1)
+            {
+                printf("%s, %d, %02d-%02d-%02d, 음료\n", PriceSortItem[i]->name, PriceSortItem[i]->price, PriceSortItem[i]->date / 10000, PriceSortItem[i]->date / 100 % 100, PriceSortItem[i]->date % 100, PriceSortItem[i]->category);
+            }
+            else if (PriceSortItem[i]->category == 2)
+            {
+                printf("%s, %d, %02d-%02d-%02d, 과자\n", PriceSortItem[i]->name, PriceSortItem[i]->price, PriceSortItem[i]->date / 10000, PriceSortItem[i]->date / 100 % 100, PriceSortItem[i]->date % 100, PriceSortItem[i]->category);
+            }
+            else if (PriceSortItem[i]->category == 3)
+            {
+                printf("%s, %d, %02d-%02d-%02d, 과일\n", PriceSortItem[i]->name, PriceSortItem[i]->price, PriceSortItem[i]->date / 10000, PriceSortItem[i]->date / 100 % 100, PriceSortItem[i]->date % 100, PriceSortItem[i]->category);
+            }
+            else if (PriceSortItem[i]->category == 4)
+            {
+                printf("%s, %d, %02d-%02d-%02d, 고기\n", PriceSortItem[i]->name, PriceSortItem[i]->price, PriceSortItem[i]->date / 10000, PriceSortItem[i]->date / 100 % 100, PriceSortItem[i]->date % 100, PriceSortItem[i]->category);
+            }
+            else if (PriceSortItem[i]->category == 5)
+            {
+                printf("%s, %d, %02d-%02d-%02d, 라면\n", PriceSortItem[i]->name, PriceSortItem[i]->price, PriceSortItem[i]->date / 10000, PriceSortItem[i]->date / 100 % 100, PriceSortItem[i]->date % 100, PriceSortItem[i]->category);
+            }
+        }
+        printf("\n\n** 확인하셨다면 아무 키나 입력해주세요. **\n");
+        char a[300];
+        scanf("%s", &a);
+    }
+    else if (choice == 3)
+    {
+        int ctg = 0;
+        printf("조회하실 카테고리를 입력해주세요.\n");
+        printf(" * 음료 ( 1을 누르세요 )\n");
+        printf(" * 과자 ( 2를 누르세요 )\n");
+        printf(" * 과일 ( 3을 누르세요 )\n");
+        printf(" * 고기 ( 4를 누르세요 )\n");
+        printf(" * 라면 ( 5를 누르세요 )\n");
+        printf("카테고리를 선택하세요 : ");
+        scanf("%d", &ctg);
+        printf("물품명, 물품 가격, 등록일, 카테고리\n");
+        heads = heads->next;
+        while (heads != NULL)
+        {
+            if (heads->category == ctg)
+            {
+                printf("%s, %d, %02d-%02d-%02d, 음료\n", heads->name, heads->price, heads->date / 10000, heads->date / 100 % 100, heads->date % 100, heads->category);
+            }
             heads = heads->next;
         }
-        return;
+        printf("\n\n** 확인하셨다면 아무 키나 입력해주세요. **\n");
+        char a[300];
+        scanf("%s", &a);
+    }
+    else
+    {
+        printf("오류! 잘못된 입력값입니다. 다시 시도해주세요.\n");
     }
 }
 
@@ -182,6 +302,10 @@ int main()
         else if (select == 4)
         {
             /* selectItem(); */
+        }
+        else
+        {
+            /* error */
         }
     }
 }
