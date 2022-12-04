@@ -1,7 +1,9 @@
 #include <stdio.h>
 #include <malloc.h>
 #include <unistd.h>
-int select;
+#include <windows.h>
+
+int userselect;
 
 /* define */
 typedef struct Node
@@ -21,20 +23,12 @@ void init()
     head->next = NULL;
 }
 
-/* screen clear function */
-
-void clearScreen()
-{
-    const char *CLEAR_SCREEN_ANSI = "\e[1;1H\e[2J";
-    write(STDOUT_FILENO, CLEAR_SCREEN_ANSI, 12);
-}
-
 /* insert item function */
 
 Node *insertItem()
 {
     Node *newNode = (Node *)malloc(sizeof(Node));
-    clearScreen();
+    system("cls");
     printf("\n물품 추가 ───────\n\n");
 
     try
@@ -59,6 +53,7 @@ Node *insertItem()
 
         if ((newNode->category) <= 5 && (newNode->category) >= 1)
         {
+            system("cls");
             printf("%s(이)가 추가되었습니다!\n\n", (newNode->name));
         }
         else
@@ -88,19 +83,106 @@ Node *insertItem()
     return newNode;
 }
 
+/* find item funtion */
+
+void findItem(Node *heads)
+{
+    system("cls");
+    int choice = 0;
+    printf("물품 검색 페이지 ───────\n\n");
+    printf(" * 등록일로 검색 ( 1을 누르세요 )\n");
+    printf(" * 가격으로 검색 ( 2를 누르세요 )\n\n");
+    printf("메뉴를 선택하세요 : ");
+    scanf("%d", &choice);
+    system("cls");
+
+    /* 등록일로 검색 */
+    if (choice == 1)
+    {
+        int date = 0;
+        printf("검색할 등록일을 입력하세요 (ex: 2022년 11월 7일 = 221107) : ");
+        scanf("%d", &date);
+        system("cls");
+        printf("물품명, 물품 가격, 등록일, 카테고리\n");
+        Node *DateSearchItem[1000];
+        int i = 0, count = 0;
+        struct Node *countHead = head;
+        heads = heads->next;
+        while (heads != NULL)
+        {
+            DateSearchItem[i] = heads;
+            heads = heads->next;
+            i++;
+        }
+        while (countHead != NULL)
+        {
+            count++;
+            countHead = countHead->next;
+        }
+
+        for (int i = 0; i < count - 1; i++)
+        {
+            if (DateSearchItem[i]->date == date)
+            {
+                printf("%s, %d, %02d-%02d-%02d, 음료\n", DateSearchItem[i]->name, DateSearchItem[i]->price, DateSearchItem[i]->date / 10000, DateSearchItem[i]->date / 100 % 100, DateSearchItem[i]->date % 100, DateSearchItem[i]->category);
+            }
+        }
+        printf("\n\n** 확인하셨다면 아무 키나 입력해주세요. **\n");
+        char a[300];
+        scanf("%s", &a);
+        system("cls");
+    }
+    else if (choice == 2)
+    {
+        /* 가격으로 검색 */
+        int price = 0;
+        printf("검색할 가격을 입력하세요 : ");
+        scanf("%d", &price);
+        system("cls");
+        printf("물품명, 물품 가격, 등록일, 카테고리\n");
+        Node *DatePriceItem[1000];
+        int i = 0, count = 0;
+        struct Node *countHead = head;
+        heads = heads->next;
+        while (heads != NULL)
+        {
+            DatePriceItem[i] = heads;
+            heads = heads->next;
+            i++;
+        }
+        while (countHead != NULL)
+        {
+            count++;
+            countHead = countHead->next;
+        }
+
+        for (int i = 0; i < count - 1; i++)
+        {
+            if (DatePriceItem[i]->price == price)
+            {
+                printf("%s, %d, %02d-%02d-%02d, 음료\n", DatePriceItem[i]->name, DatePriceItem[i]->price, DatePriceItem[i]->date / 10000, DatePriceItem[i]->date / 100 % 100, DatePriceItem[i]->date % 100, DatePriceItem[i]->category);
+            }
+        }
+        printf("\n\n** 확인하셨다면 아무 키나 입력해주세요. **\n");
+        char a[300];
+        scanf("%s", &a);
+        system("cls");
+    }
+}
+
 /* show all item function */
 
 void showAllItem(Node *heads)
 {
-    clearScreen();
+    system("cls");
     int choice = 0;
     printf("물품 조회 페이지 ───────\n\n");
     printf(" * 등록일순 조회 ( 1을 누르세요 )\n");
     printf(" * 가격순 조회 ( 2를 누르세요 )\n");
-    printf(" * 카테고리별 조회 ( 3을 누르세요 )\n");
+    printf(" * 카테고리별 조회 ( 3을 누르세요 )\n\n");
     printf("메뉴를 선택하세요 : ");
     scanf("%d", &choice);
-    clearScreen();
+    system("cls");
     /* 등록일순 조회 */
 
     if (choice == 1)
@@ -161,6 +243,7 @@ void showAllItem(Node *heads)
         printf("\n\n** 확인하셨다면 아무 키나 입력해주세요. **\n");
         char a[300];
         scanf("%s", &a);
+        system("cls");
     }
     /* 가격순 조회 */
     else if (choice == 2)
@@ -221,6 +304,7 @@ void showAllItem(Node *heads)
         printf("\n\n** 확인하셨다면 아무 키나 입력해주세요. **\n");
         char a[300];
         scanf("%s", &a);
+        system("cls");
     }
     else if (choice == 3)
     {
@@ -230,9 +314,10 @@ void showAllItem(Node *heads)
         printf(" * 과자 ( 2를 누르세요 )\n");
         printf(" * 과일 ( 3을 누르세요 )\n");
         printf(" * 고기 ( 4를 누르세요 )\n");
-        printf(" * 라면 ( 5를 누르세요 )\n");
+        printf(" * 라면 ( 5를 누르세요 )\n\n");
         printf("카테고리를 선택하세요 : ");
         scanf("%d", &ctg);
+        system("cls");
         printf("물품명, 물품 가격, 등록일, 카테고리\n");
         heads = heads->next;
         while (heads != NULL)
@@ -246,6 +331,7 @@ void showAllItem(Node *heads)
         printf("\n\n** 확인하셨다면 아무 키나 입력해주세요. **\n");
         char a[300];
         scanf("%s", &a);
+        system("cls");
     }
     else
     {
@@ -276,36 +362,37 @@ int main()
         printf("나빈 마켓 현황 ─────\n\n");
 
         printf(" * 나빈 마켓 현재 물품 개수 (데이터 개수) : %d\n", count - 1);
-        printf(" * 나빈 마켓 현재 진열 공간 (메모리 크기) : %d\n", (count - 1) * (sizeof(head)));
+        printf(" * 나빈 마켓 현재 진열 공간 (메모리 크기) : %d\n\n", (count - 1) * (sizeof(head)));
 
         printf("나빈 마켓 메뉴 ─────\n\n");
 
         printf(" * 물품 목록 조회 ( 1을 누르세요 )\n");
-        printf(" * 마켓 물품 추가 ( 2를 누르세요 )\n");
-        printf(" * 마켓 물품 삭제 ( 3을 누르세요 )\n");
-        printf(" * 물품 찜 & 구매 ( 4를 누르세요 )\n\n");
+        printf(" * 특정 물품 검색 ( 2를 누르세요 )\n");
+        printf(" * 마켓 물품 추가 ( 3를 누르세요 )\n");
+        printf(" * 마켓 물품 삭제 ( 4을 누르세요 )\n");
+        printf(" * 물품 찜 & 구매 ( 5를 누르세요 )\n\n");
         printf("메뉴를 선택하세요 : ");
-        scanf("%d", &select);
+        scanf("%d", &userselect);
 
-        if (select == 1)
+        if (userselect == 1)
         {
             showAllItem(head);
         }
-        else if (select == 2)
+        else if (userselect == 2)
+        {
+            findItem(head);
+        }
+        else if (userselect == 3)
         {
             insertItem();
         }
-        else if (select == 3)
+        else if (userselect == 4)
         {
             /* deleteItem(); */
         }
-        else if (select == 4)
+        else if (userselect == 5)
         {
-            /* selectItem(); */
-        }
-        else
-        {
-            /* error */
+            /* buyItem(); */
         }
     }
 }
