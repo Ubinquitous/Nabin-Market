@@ -2,16 +2,9 @@
 #include <malloc.h>
 #include <unistd.h>
 #include <windows.h>
-<<<<<<< HEAD
 
-/* ¹°Ç° ¸ñ·Ï ¿¬°á¸®½ºÆ® Á¤ÀÇ */
+/* ë¬¼í’ˆ ëª©ë¡ ì—°ê²°ë¦¬ìŠ¤íŠ¸ ì •ì˜ */
 
-=======
-
-int userselect;
-
-/* define */
->>>>>>> 2573e5326daedbbf95e0e7bfb3ffd4b772f48115
 typedef struct Node
 {
     char name[50];
@@ -21,171 +14,117 @@ typedef struct Node
     struct Node *next;
 } Node;
 
-<<<<<<< HEAD
-/* ¸ñ·Ï ¼±ÅÃ º¯¼ö */
+/* ëª©ë¡ ì„ íƒ ë³€ìˆ˜ */
 
 int userselect;
 
-/* ¹°Ç° ¸ñ·Ï ¿¬°á¸®½ºÆ® ¼±¾ğ */
+/* ë¬¼í’ˆ ëª©ë¡ ì—°ê²°ë¦¬ìŠ¤íŠ¸ ì„ ì–¸ */
 
 Node *head = (Node *)malloc(sizeof(Node));
-/* ¿¬°á¸®½ºÆ® ÃÊ±âÈ­ º¯¼ö */
+/* ì—°ê²°ë¦¬ìŠ¤íŠ¸ ì´ˆê¸°í™” ë³€ìˆ˜ */
 
-=======
-/* variable define*/
-
-Node *head = (Node *)malloc(sizeof(Node));
->>>>>>> 2573e5326daedbbf95e0e7bfb3ffd4b772f48115
 void init()
 {
     head->next = NULL;
 }
-<<<<<<< HEAD
 
-/* ¹°Ç° Ãß°¡ ÇÔ¼ö */
+/* ë¬¼í’ˆ ì¶”ê°€ í•¨ìˆ˜ */
 
 void deleteItem(Node *heads)
 {
     Node *DateSortItem[1000];
     Node *temp[2];
-        int i = 0, count = 0;
-        struct Node *countHead = head;
+    int i = 0, count = 0;
+    struct Node *countHead = head;
 
+    heads = heads->next;
+
+    /* ë°°ì—´ì— ë¬¼í’ˆ ëª©ë¡ ë‹´ê¸° */
+    while (heads != NULL)
+    {
+        DateSortItem[i] = heads;
         heads = heads->next;
+        i++;
+    }
 
-        /* ¹è¿­¿¡ ¹°Ç° ¸ñ·Ï ´ã±â */
-        while (heads != NULL)
-        {
-            DateSortItem[i] = heads;
-            heads = heads->next;
-            i++;
-        }
+    /* ë¬¼í’ˆ ê°œìˆ˜ êµ¬í•˜ê¸° */
+    while (countHead != NULL)
+    {
+        count++;
+        countHead = countHead->next;
+    }
 
-        /* ¹°Ç° °³¼ö ±¸ÇÏ±â */
-        while (countHead != NULL)
+    /* ë²„ë¸” ì •ë ¬ */
+    for (int i = count - 2; i > 0; i--)
+    {
+        for (int j = 0; j < i; j++)
         {
-            count++;
-            countHead = countHead->next;
-        }
-
-        /* ¹öºí Á¤·Ä */
-        for (int i = count - 2; i > 0; i--)
-        {
-            for (int j = 0; j < i; j++)
+            if (DateSortItem[j]->date > DateSortItem[j + 1]->date)
             {
-                if (DateSortItem[j]->date > DateSortItem[j + 1]->date)
-                {
-                    temp[0] = DateSortItem[j];
-                    DateSortItem[j] = DateSortItem[j + 1];
-                    DateSortItem[j + 1] = temp[0];
-                }
+                temp[0] = DateSortItem[j];
+                DateSortItem[j] = DateSortItem[j + 1];
+                DateSortItem[j + 1] = temp[0];
             }
         }
-        system("cls");
-        printf("¹°Ç°¸í, ¹°Ç° °¡°İ, µî·ÏÀÏ, Ä«Å×°í¸®\n");
-        for (int i = 0; i < count - 1; i++)
-        {
-            /* Ä«Å×°í¸®°¡ À½·á¸é */
-            if (DateSortItem[i]->category == 1)
-            {
-                printf("[%d]%s, %d, %02d-%02d-%02d, À½·á\n", i + 1,DateSortItem[i]->name, DateSortItem[i]->price, DateSortItem[i]->date / 10000, DateSortItem[i]->date / 100 % 100, DateSortItem[i]->date % 100, DateSortItem[i]->category);
-            }
-            /* Ä«Å×°í¸®°¡ °úÀÚ¸é */
-            else if (DateSortItem[i]->category == 2)
-            {
-                printf("[%d]%s, %d, %02d-%02d-%02d, °úÀÚ\n",i + 1, DateSortItem[i]->name, DateSortItem[i]->price, DateSortItem[i]->date / 10000, DateSortItem[i]->date / 100 % 100, DateSortItem[i]->date % 100, DateSortItem[i]->category);
-            }
-
-            /* Ä«Å×°í¸®°¡ °úÀÏÀÌ¸é */
-            else if (DateSortItem[i]->category == 3)
-            {
-                printf("[%d]%s, %d, %02d-%02d-%02d, °úÀÏ\n",i + 1, DateSortItem[i]->name, DateSortItem[i]->price, DateSortItem[i]->date / 10000, DateSortItem[i]->date / 100 % 100, DateSortItem[i]->date % 100, DateSortItem[i]->category);
-            }
-
-            /* Ä«Å×°í¸®°¡ °í±â¸é */
-            else if (DateSortItem[i]->category == 4)
-            {
-                printf("[%d]%s, %d, %02d-%02d-%02d, °í±â\n",i + 1, DateSortItem[i]->name, DateSortItem[i]->price, DateSortItem[i]->date / 10000, DateSortItem[i]->date / 100 % 100, DateSortItem[i]->date % 100, DateSortItem[i]->category);
-            }
-
-            /* Ä«Å×°í¸®°¡ ¶ó¸éÀÌ¸é */
-            else if (DateSortItem[i]->category == 5)
-            {
-                printf("[%d]%s, %d, %02d-%02d-%02d, ¶ó¸é\n",i + 1, DateSortItem[i]->name, DateSortItem[i]->price, DateSortItem[i]->date / 10000, DateSortItem[i]->date / 100 % 100, DateSortItem[i]->date % 100, DateSortItem[i]->category);
-            }
-        }
-
-        printf("\n\n»èÁ¦ÇÏ°í ½ÍÀº »óÇ°ÀÇ ¹øÈ£¸¦ ¼±ÅÃÇØÁÖ¼¼¿ä\n");
-        int index;
-        scanf("%d", &index);
-
-        if (index == 1)
-        {
-            Node* temp2 = head;
-            head = head->next;
-            free(temp2);
-            return;
-        }
-
-    Node* temp1 = head;
-	Node* prev = nullptr;
-	for (int i = 0; i < index; i++)
-	{
-		prev = temp1;
-		temp1 = temp1->next;
-	}
-
-	prev->next = temp1->next;
-	free(temp1);
-	}
-
-
-Node *insertItem()
-{
-    Node *newNode = (Node *)malloc(sizeof(Node));
+    }
     system("cls");
-    printf("\n¹°Ç° Ãß°¡ ¦¡¦¡¦¡¦¡¦¡¦¡¦¡\n\n");
-
-    try
+    printf("ë¬¼í’ˆëª…, ë¬¼í’ˆ ê°€ê²©, ë“±ë¡ì¼, ì¹´í…Œê³ ë¦¬\n");
+    for (int i = 0; i < count - 1; i++)
     {
-        printf("Ãß°¡ÇÒ ¹°Ç°¸íÀ» ÀÔ·ÂÇÏ¼¼¿ä : ");
-        scanf("%s", (newNode->name));
-
-        printf("¹°Ç°ÀÇ °¡°İÀ» ÀÔ·ÂÇÏ¼¼¿ä : ");
-        scanf("%d", &(newNode->price));
-
-        printf("¹°Ç°ÀÇ µî·ÏÀÏÀ» ÀÔ·ÂÇÏ¼¼¿ä (ex: 2022³â 11¿ù 7ÀÏ = 221107) : ");
-        scanf("%d", &(newNode->date));
-
-        printf("¹°Ç°ÀÇ Ä«Å×°í¸®¸¦ Á¤ÇØÁÖ¼¼¿ä :: \n");
-        printf(" * À½·á ( 1À» ´©¸£¼¼¿ä )\n");
-        printf(" * °úÀÚ ( 2¸¦ ´©¸£¼¼¿ä )\n");
-        printf(" * °úÀÏ ( 3À» ´©¸£¼¼¿ä )\n");
-        printf(" * °í±â ( 4¸¦ ´©¸£¼¼¿ä )\n");
-        printf(" * ¶ó¸é ( 5¸¦ ´©¸£¼¼¿ä )\n");
-        printf("Ä«Å×°í¸®¸¦ ¼±ÅÃÇÏ¼¼¿ä : ");
-        scanf("%d", &(newNode->category));
-
-        if ((newNode->category) <= 5 && (newNode->category) >= 1)
+        /* ì¹´í…Œê³ ë¦¬ê°€ ìŒë£Œë©´ */
+        if (DateSortItem[i]->category == 1)
         {
-            system("cls");
-            printf("%s(ÀÌ)°¡ Ãß°¡µÇ¾ú½À´Ï´Ù!\n\n", (newNode->name));
+            printf("[%d]%s, %d, %02d-%02d-%02d, ìŒë£Œ\n", i + 1, DateSortItem[i]->name, DateSortItem[i]->price, DateSortItem[i]->date / 10000, DateSortItem[i]->date / 100 % 100, DateSortItem[i]->date % 100, DateSortItem[i]->category);
         }
-        else
+        /* ì¹´í…Œê³ ë¦¬ê°€ ê³¼ìë©´ */
+        else if (DateSortItem[i]->category == 2)
         {
-            throw -1;
+            printf("[%d]%s, %d, %02d-%02d-%02d, ê³¼ì\n", i + 1, DateSortItem[i]->name, DateSortItem[i]->price, DateSortItem[i]->date / 10000, DateSortItem[i]->date / 100 % 100, DateSortItem[i]->date % 100, DateSortItem[i]->category);
+        }
+
+        /* ì¹´í…Œê³ ë¦¬ê°€ ê³¼ì¼ì´ë©´ */
+        else if (DateSortItem[i]->category == 3)
+        {
+            printf("[%d]%s, %d, %02d-%02d-%02d, ê³¼ì¼\n", i + 1, DateSortItem[i]->name, DateSortItem[i]->price, DateSortItem[i]->date / 10000, DateSortItem[i]->date / 100 % 100, DateSortItem[i]->date % 100, DateSortItem[i]->category);
+        }
+
+        /* ì¹´í…Œê³ ë¦¬ê°€ ê³ ê¸°ë©´ */
+        else if (DateSortItem[i]->category == 4)
+        {
+            printf("[%d]%s, %d, %02d-%02d-%02d, ê³ ê¸°\n", i + 1, DateSortItem[i]->name, DateSortItem[i]->price, DateSortItem[i]->date / 10000, DateSortItem[i]->date / 100 % 100, DateSortItem[i]->date % 100, DateSortItem[i]->category);
+        }
+
+        /* ì¹´í…Œê³ ë¦¬ê°€ ë¼ë©´ì´ë©´ */
+        else if (DateSortItem[i]->category == 5)
+        {
+            printf("[%d]%s, %d, %02d-%02d-%02d, ë¼ë©´\n", i + 1, DateSortItem[i]->name, DateSortItem[i]->price, DateSortItem[i]->date / 10000, DateSortItem[i]->date / 100 % 100, DateSortItem[i]->date % 100, DateSortItem[i]->category);
         }
     }
-    catch (int error)
+
+    printf("\n\nì‚­ì œí•˜ê³  ì‹¶ì€ ìƒí’ˆì˜ ë²ˆí˜¸ë¥¼ ì„ íƒí•´ì£¼ì„¸ìš”\n");
+    int index;
+    scanf("%d", &index);
+
+    if (index == 1)
     {
-        printf("¿À·ù! Àß¸øµÈ ÀÔ·Â°ªÀÔ´Ï´Ù. ´Ù½Ã ½ÃµµÇØÁÖ¼¼¿ä.\n");
+        Node *temp2 = head;
+        head = head->next;
+        free(temp2);
+        return;
     }
 
-    newNode->next = NULL;
+    Node *temp1 = head;
+    Node *prev = nullptr;
+    for (int i = 0; i < index; i++)
+    {
+        prev = temp1;
+        temp1 = temp1->next;
+    }
 
-=======
-
-/* insert item function */
+    prev->next = temp1->next;
+    free(temp1);
+    system("cls");
+}
 
 Node *insertItem()
 {
@@ -220,7 +159,7 @@ Node *insertItem()
         }
         else
         {
-            throw 0;
+            throw -1;
         }
     }
     catch (int error)
@@ -230,7 +169,6 @@ Node *insertItem()
 
     newNode->next = NULL;
 
->>>>>>> 2573e5326daedbbf95e0e7bfb3ffd4b772f48115
     if (head->next == NULL)
     {
         head->next = newNode;
@@ -246,33 +184,12 @@ Node *insertItem()
     return newNode;
 }
 
-<<<<<<< HEAD
-/* ¹°Ç° °Ë»ö ÇÔ¼ö */
-=======
-/* find item funtion */
->>>>>>> 2573e5326daedbbf95e0e7bfb3ffd4b772f48115
+/* ë¬¼í’ˆ ê²€ìƒ‰ í•¨ìˆ˜ */
 
 void findItem(Node *heads)
 {
     system("cls");
     int choice = 0;
-<<<<<<< HEAD
-    printf("¹°Ç° °Ë»ö ÆäÀÌÁö ¦¡¦¡¦¡¦¡¦¡¦¡¦¡\n\n");
-    printf(" * µî·ÏÀÏ·Î °Ë»ö ( 1À» ´©¸£¼¼¿ä )\n");
-    printf(" * °¡°İÀ¸·Î °Ë»ö ( 2¸¦ ´©¸£¼¼¿ä )\n\n");
-    printf("¸Ş´º¸¦ ¼±ÅÃÇÏ¼¼¿ä : ");
-    scanf("%d", &choice);
-    system("cls");
-
-    /* µî·ÏÀÏ·Î °Ë»ö */
-    if (choice == 1)
-    {
-        int date = 0;
-        printf("°Ë»öÇÒ µî·ÏÀÏÀ» ÀÔ·ÂÇÏ¼¼¿ä (ex: 2022³â 11¿ù 7ÀÏ = 221107) : ");
-        scanf("%d", &date);
-        system("cls");
-        printf("¹°Ç°¸í, ¹°Ç° °¡°İ, µî·ÏÀÏ, Ä«Å×°í¸®\n");
-=======
     printf("ë¬¼í’ˆ ê²€ìƒ‰ í˜ì´ì§€ â”€â”€â”€â”€â”€â”€â”€\n\n");
     printf(" * ë“±ë¡ì¼ë¡œ ê²€ìƒ‰ ( 1ì„ ëˆ„ë¥´ì„¸ìš” )\n");
     printf(" * ê°€ê²©ìœ¼ë¡œ ê²€ìƒ‰ ( 2ë¥¼ ëˆ„ë¥´ì„¸ìš” )\n\n");
@@ -288,7 +205,6 @@ void findItem(Node *heads)
         scanf("%d", &date);
         system("cls");
         printf("ë¬¼í’ˆëª…, ë¬¼í’ˆ ê°€ê²©, ë“±ë¡ì¼, ì¹´í…Œê³ ë¦¬\n");
->>>>>>> 2573e5326daedbbf95e0e7bfb3ffd4b772f48115
         Node *DateSearchItem[1000];
         int i = 0, count = 0;
         struct Node *countHead = head;
@@ -309,40 +225,22 @@ void findItem(Node *heads)
         {
             if (DateSearchItem[i]->date == date)
             {
-<<<<<<< HEAD
-                printf("%s, %d, %02d-%02d-%02d, À½·á\n", DateSearchItem[i]->name, DateSearchItem[i]->price, DateSearchItem[i]->date / 10000, DateSearchItem[i]->date / 100 % 100, DateSearchItem[i]->date % 100, DateSearchItem[i]->category);
-            }
-        }
-        printf("\n\n** È®ÀÎÇÏ¼Ì´Ù¸é ¾Æ¹« Å°³ª ÀÔ·ÂÇØÁÖ¼¼¿ä. **\n");
-=======
                 printf("%s, %d, %02d-%02d-%02d, ìŒë£Œ\n", DateSearchItem[i]->name, DateSearchItem[i]->price, DateSearchItem[i]->date / 10000, DateSearchItem[i]->date / 100 % 100, DateSearchItem[i]->date % 100, DateSearchItem[i]->category);
             }
         }
         printf("\n\n** í™•ì¸í•˜ì…¨ë‹¤ë©´ ì•„ë¬´ í‚¤ë‚˜ ì…ë ¥í•´ì£¼ì„¸ìš”. **\n");
->>>>>>> 2573e5326daedbbf95e0e7bfb3ffd4b772f48115
         char a[300];
         scanf("%s", &a);
         system("cls");
     }
-<<<<<<< HEAD
-    /* °¡°İÀ¸·Î °Ë»ö */
+    /* ê°€ê²©ìœ¼ë¡œ ê²€ìƒ‰ */
     else if (choice == 2)
     {
-        int price = 0;
-        printf("°Ë»öÇÒ °¡°İÀ» ÀÔ·ÂÇÏ¼¼¿ä : ");
-        scanf("%d", &price);
-        system("cls");
-        printf("¹°Ç°¸í, ¹°Ç° °¡°İ, µî·ÏÀÏ, Ä«Å×°í¸®\n");
-=======
-    else if (choice == 2)
-    {
-        /* ê°€ê²©ìœ¼ë¡œ ê²€ìƒ‰ */
         int price = 0;
         printf("ê²€ìƒ‰í•  ê°€ê²©ì„ ì…ë ¥í•˜ì„¸ìš” : ");
         scanf("%d", &price);
         system("cls");
         printf("ë¬¼í’ˆëª…, ë¬¼í’ˆ ê°€ê²©, ë“±ë¡ì¼, ì¹´í…Œê³ ë¦¬\n");
->>>>>>> 2573e5326daedbbf95e0e7bfb3ffd4b772f48115
         Node *DatePriceItem[1000];
         int i = 0, count = 0;
         struct Node *countHead = head;
@@ -363,44 +261,22 @@ void findItem(Node *heads)
         {
             if (DatePriceItem[i]->price == price)
             {
-<<<<<<< HEAD
-                printf("%s, %d, %02d-%02d-%02d, À½·á\n", DatePriceItem[i]->name, DatePriceItem[i]->price, DatePriceItem[i]->date / 10000, DatePriceItem[i]->date / 100 % 100, DatePriceItem[i]->date % 100, DatePriceItem[i]->category);
-            }
-        }
-        printf("\n\n** È®ÀÎÇÏ¼Ì´Ù¸é ¾Æ¹« Å°³ª ÀÔ·ÂÇØÁÖ¼¼¿ä. **\n");
-=======
                 printf("%s, %d, %02d-%02d-%02d, ìŒë£Œ\n", DatePriceItem[i]->name, DatePriceItem[i]->price, DatePriceItem[i]->date / 10000, DatePriceItem[i]->date / 100 % 100, DatePriceItem[i]->date % 100, DatePriceItem[i]->category);
             }
         }
         printf("\n\n** í™•ì¸í•˜ì…¨ë‹¤ë©´ ì•„ë¬´ í‚¤ë‚˜ ì…ë ¥í•´ì£¼ì„¸ìš”. **\n");
->>>>>>> 2573e5326daedbbf95e0e7bfb3ffd4b772f48115
         char a[300];
         scanf("%s", &a);
         system("cls");
     }
 }
 
-<<<<<<< HEAD
-/* ¹°Ç° ¸ñ·Ï Á¶È¸ ÇÔ¼ö */
-=======
-/* show all item function */
->>>>>>> 2573e5326daedbbf95e0e7bfb3ffd4b772f48115
+/* ë¬¼í’ˆ ëª©ë¡ ì¡°íšŒ í•¨ìˆ˜ */
 
 void showAllItem(Node *heads)
 {
     system("cls");
     int choice = 0;
-<<<<<<< HEAD
-    printf("¹°Ç° Á¶È¸ ÆäÀÌÁö ¦¡¦¡¦¡¦¡¦¡¦¡¦¡\n\n");
-    printf(" * µî·ÏÀÏ¼ø Á¶È¸ ( 1À» ´©¸£¼¼¿ä )\n");
-    printf(" * °¡°İ¼ø Á¶È¸ ( 2¸¦ ´©¸£¼¼¿ä )\n");
-    printf(" * Ä«Å×°í¸®º° Á¶È¸ ( 3À» ´©¸£¼¼¿ä )\n\n");
-    printf("¸Ş´º¸¦ ¼±ÅÃÇÏ¼¼¿ä : ");
-    scanf("%d", &choice);
-    system("cls");
-
-    /* µî·ÏÀÏ¼ø Á¶È¸ */
-=======
     printf("ë¬¼í’ˆ ì¡°íšŒ í˜ì´ì§€ â”€â”€â”€â”€â”€â”€â”€\n\n");
     printf(" * ë“±ë¡ì¼ìˆœ ì¡°íšŒ ( 1ì„ ëˆ„ë¥´ì„¸ìš” )\n");
     printf(" * ê°€ê²©ìˆœ ì¡°íšŒ ( 2ë¥¼ ëˆ„ë¥´ì„¸ìš” )\n");
@@ -408,8 +284,8 @@ void showAllItem(Node *heads)
     printf("ë©”ë‰´ë¥¼ ì„ íƒí•˜ì„¸ìš” : ");
     scanf("%d", &choice);
     system("cls");
+
     /* ë“±ë¡ì¼ìˆœ ì¡°íšŒ */
->>>>>>> 2573e5326daedbbf95e0e7bfb3ffd4b772f48115
 
     if (choice == 1)
     {
@@ -419,32 +295,23 @@ void showAllItem(Node *heads)
         struct Node *countHead = head;
 
         heads = heads->next;
-<<<<<<< HEAD
 
-        /* ¹è¿­¿¡ ¹°Ç° ¸ñ·Ï ´ã±â */
-=======
->>>>>>> 2573e5326daedbbf95e0e7bfb3ffd4b772f48115
+        /* ë°°ì—´ì— ë¬¼í’ˆ ëª©ë¡ ë‹´ê¸° */
         while (heads != NULL)
         {
             DateSortItem[i] = heads;
             heads = heads->next;
             i++;
         }
-<<<<<<< HEAD
 
-        /* ¹°Ç° °³¼ö ±¸ÇÏ±â */
-=======
->>>>>>> 2573e5326daedbbf95e0e7bfb3ffd4b772f48115
+        /* ë¬¼í’ˆ ê°œìˆ˜ êµ¬í•˜ê¸° */
         while (countHead != NULL)
         {
             count++;
             countHead = countHead->next;
         }
-<<<<<<< HEAD
 
-        /* ¹öºí Á¤·Ä */
-=======
->>>>>>> 2573e5326daedbbf95e0e7bfb3ffd4b772f48115
+        /* ë²„ë¸” ì •ë ¬ */
         for (int i = count - 2; i > 0; i--)
         {
             for (int j = 0; j < i; j++)
@@ -457,78 +324,46 @@ void showAllItem(Node *heads)
                 }
             }
         }
-<<<<<<< HEAD
-        printf("¹°Ç°¸í, ¹°Ç° °¡°İ, µî·ÏÀÏ, Ä«Å×°í¸®\n");
-        for (int i = 0; i < count - 1; i++)
-        {
-            /* Ä«Å×°í¸®°¡ À½·á¸é */
-            if (DateSortItem[i]->category == 1)
-            {
-                printf("%s, %d, %02d-%02d-%02d, À½·á\n", DateSortItem[i]->name, DateSortItem[i]->price, DateSortItem[i]->date / 10000, DateSortItem[i]->date / 100 % 100, DateSortItem[i]->date % 100, DateSortItem[i]->category);
-            }
-            /* Ä«Å×°í¸®°¡ °úÀÚ¸é */
-            else if (DateSortItem[i]->category == 2)
-            {
-                printf("%s, %d, %02d-%02d-%02d, °úÀÚ\n", DateSortItem[i]->name, DateSortItem[i]->price, DateSortItem[i]->date / 10000, DateSortItem[i]->date / 100 % 100, DateSortItem[i]->date % 100, DateSortItem[i]->category);
-            }
-
-            /* Ä«Å×°í¸®°¡ °úÀÏÀÌ¸é */
-            else if (DateSortItem[i]->category == 3)
-            {
-                printf("%s, %d, %02d-%02d-%02d, °úÀÏ\n", DateSortItem[i]->name, DateSortItem[i]->price, DateSortItem[i]->date / 10000, DateSortItem[i]->date / 100 % 100, DateSortItem[i]->date % 100, DateSortItem[i]->category);
-            }
-
-            /* Ä«Å×°í¸®°¡ °í±â¸é */
-            else if (DateSortItem[i]->category == 4)
-            {
-                printf("%s, %d, %02d-%02d-%02d, °í±â\n", DateSortItem[i]->name, DateSortItem[i]->price, DateSortItem[i]->date / 10000, DateSortItem[i]->date / 100 % 100, DateSortItem[i]->date % 100, DateSortItem[i]->category);
-            }
-
-            /* Ä«Å×°í¸®°¡ ¶ó¸éÀÌ¸é */
-            else if (DateSortItem[i]->category == 5)
-            {
-                printf("%s, %d, %02d-%02d-%02d, ¶ó¸é\n", DateSortItem[i]->name, DateSortItem[i]->price, DateSortItem[i]->date / 10000, DateSortItem[i]->date / 100 % 100, DateSortItem[i]->date % 100, DateSortItem[i]->category);
-            }
-        }
-
-        printf("\n\n** È®ÀÎÇÏ¼Ì´Ù¸é ¾Æ¹« Å°³ª ÀÔ·ÂÇØÁÖ¼¼¿ä. **\n");
-=======
         printf("ë¬¼í’ˆëª…, ë¬¼í’ˆ ê°€ê²©, ë“±ë¡ì¼, ì¹´í…Œê³ ë¦¬\n");
         for (int i = 0; i < count - 1; i++)
         {
+            /* ì¹´í…Œê³ ë¦¬ê°€ ìŒë£Œë©´ */
             if (DateSortItem[i]->category == 1)
             {
                 printf("%s, %d, %02d-%02d-%02d, ìŒë£Œ\n", DateSortItem[i]->name, DateSortItem[i]->price, DateSortItem[i]->date / 10000, DateSortItem[i]->date / 100 % 100, DateSortItem[i]->date % 100, DateSortItem[i]->category);
             }
+            /* ì¹´í…Œê³ ë¦¬ê°€ ê³¼ìë©´ */
             else if (DateSortItem[i]->category == 2)
             {
                 printf("%s, %d, %02d-%02d-%02d, ê³¼ì\n", DateSortItem[i]->name, DateSortItem[i]->price, DateSortItem[i]->date / 10000, DateSortItem[i]->date / 100 % 100, DateSortItem[i]->date % 100, DateSortItem[i]->category);
             }
+
+            /* ì¹´í…Œê³ ë¦¬ê°€ ê³¼ì¼ì´ë©´ */
             else if (DateSortItem[i]->category == 3)
             {
                 printf("%s, %d, %02d-%02d-%02d, ê³¼ì¼\n", DateSortItem[i]->name, DateSortItem[i]->price, DateSortItem[i]->date / 10000, DateSortItem[i]->date / 100 % 100, DateSortItem[i]->date % 100, DateSortItem[i]->category);
             }
+
+            /* ì¹´í…Œê³ ë¦¬ê°€ ê³ ê¸°ë©´ */
             else if (DateSortItem[i]->category == 4)
             {
                 printf("%s, %d, %02d-%02d-%02d, ê³ ê¸°\n", DateSortItem[i]->name, DateSortItem[i]->price, DateSortItem[i]->date / 10000, DateSortItem[i]->date / 100 % 100, DateSortItem[i]->date % 100, DateSortItem[i]->category);
             }
+
+            /* ì¹´í…Œê³ ë¦¬ê°€ ë¼ë©´ì´ë©´ */
             else if (DateSortItem[i]->category == 5)
             {
                 printf("%s, %d, %02d-%02d-%02d, ë¼ë©´\n", DateSortItem[i]->name, DateSortItem[i]->price, DateSortItem[i]->date / 10000, DateSortItem[i]->date / 100 % 100, DateSortItem[i]->date % 100, DateSortItem[i]->category);
             }
         }
+
         printf("\n\n** í™•ì¸í•˜ì…¨ë‹¤ë©´ ì•„ë¬´ í‚¤ë‚˜ ì…ë ¥í•´ì£¼ì„¸ìš”. **\n");
->>>>>>> 2573e5326daedbbf95e0e7bfb3ffd4b772f48115
         char a[300];
         scanf("%s", &a);
         system("cls");
     }
-<<<<<<< HEAD
 
-    /* °¡°İ¼ø Á¶È¸ */
-=======
     /* ê°€ê²©ìˆœ ì¡°íšŒ */
->>>>>>> 2573e5326daedbbf95e0e7bfb3ffd4b772f48115
     else if (choice == 2)
     {
         Node *PriceSortItem[1000];
@@ -536,10 +371,7 @@ void showAllItem(Node *heads)
         int i = 0, count = 0;
         struct Node *countHead = head;
 
-<<<<<<< HEAD
-        /* ¹è¿­¿¡ ¹°Ç° ¸ñ·Ï ´ã±â */
-=======
->>>>>>> 2573e5326daedbbf95e0e7bfb3ffd4b772f48115
+        /* ë°°ì—´ì— ë¬¼í’ˆ ëª©ë¡ ë‹´ê¸° */
         heads = heads->next;
         while (heads != NULL)
         {
@@ -547,19 +379,13 @@ void showAllItem(Node *heads)
             heads = heads->next;
             i++;
         }
-<<<<<<< HEAD
-        /* ¹°Ç° °³¼ö ±¸ÇÏ±â */
-=======
->>>>>>> 2573e5326daedbbf95e0e7bfb3ffd4b772f48115
+        /* ë¬¼í’ˆ ê°œìˆ˜ êµ¬í•˜ê¸° */
         while (countHead != NULL)
         {
             count++;
             countHead = countHead->next;
         }
-<<<<<<< HEAD
-        /* ¹öºí Á¤·Ä */
-=======
->>>>>>> 2573e5326daedbbf95e0e7bfb3ffd4b772f48115
+        /* ë²„ë¸” ì •ë ¬ */
         for (int i = count - 2; i > 0; i--)
         {
             for (int j = 0; j < i; j++)
@@ -572,87 +398,42 @@ void showAllItem(Node *heads)
                 }
             }
         }
-<<<<<<< HEAD
-        printf("¹°Ç°¸í, ¹°Ç° °¡°İ, µî·ÏÀÏ, Ä«Å×°í¸®\n");
-        for (int i = 0; i < count - 1; i++)
-        {
-            /* Ä«Å×°í¸®°¡ À½·á¸é */
-            if (PriceSortItem[i]->category == 1)
-            {
-                printf("%s, %d, %02d-%02d-%02d, À½·á\n", PriceSortItem[i]->name, PriceSortItem[i]->price, PriceSortItem[i]->date / 10000, PriceSortItem[i]->date / 100 % 100, PriceSortItem[i]->date % 100, PriceSortItem[i]->category);
-            }
-            /* Ä«Å×°í¸®°¡ °úÀÚ¸é */
-            else if (PriceSortItem[i]->category == 2)
-            {
-                printf("%s, %d, %02d-%02d-%02d, °úÀÚ\n", PriceSortItem[i]->name, PriceSortItem[i]->price, PriceSortItem[i]->date / 10000, PriceSortItem[i]->date / 100 % 100, PriceSortItem[i]->date % 100, PriceSortItem[i]->category);
-            }
-            /* Ä«Å×°í¸®°¡ °úÀÏÀÌ¸é */
-            else if (PriceSortItem[i]->category == 3)
-            {
-                printf("%s, %d, %02d-%02d-%02d, °úÀÏ\n", PriceSortItem[i]->name, PriceSortItem[i]->price, PriceSortItem[i]->date / 10000, PriceSortItem[i]->date / 100 % 100, PriceSortItem[i]->date % 100, PriceSortItem[i]->category);
-            }
-            /* Ä«Å×°í¸®°¡ °í±â¸é */
-            else if (PriceSortItem[i]->category == 4)
-            {
-                printf("%s, %d, %02d-%02d-%02d, °í±â\n", PriceSortItem[i]->name, PriceSortItem[i]->price, PriceSortItem[i]->date / 10000, PriceSortItem[i]->date / 100 % 100, PriceSortItem[i]->date % 100, PriceSortItem[i]->category);
-            }
-            /* Ä«Å×°í¸®°¡ ¶ó¸éÀÌ¸é */
-            else if (PriceSortItem[i]->category == 5)
-            {
-                printf("%s, %d, %02d-%02d-%02d, ¶ó¸é\n", PriceSortItem[i]->name, PriceSortItem[i]->price, PriceSortItem[i]->date / 10000, PriceSortItem[i]->date / 100 % 100, PriceSortItem[i]->date % 100, PriceSortItem[i]->category);
-            }
-        }
-
-        printf("\n\n** È®ÀÎÇÏ¼Ì´Ù¸é ¾Æ¹« Å°³ª ÀÔ·ÂÇØÁÖ¼¼¿ä. **\n");
-=======
         printf("ë¬¼í’ˆëª…, ë¬¼í’ˆ ê°€ê²©, ë“±ë¡ì¼, ì¹´í…Œê³ ë¦¬\n");
         for (int i = 0; i < count - 1; i++)
         {
+            /* ì¹´í…Œê³ ë¦¬ê°€ ìŒë£Œë©´ */
             if (PriceSortItem[i]->category == 1)
             {
                 printf("%s, %d, %02d-%02d-%02d, ìŒë£Œ\n", PriceSortItem[i]->name, PriceSortItem[i]->price, PriceSortItem[i]->date / 10000, PriceSortItem[i]->date / 100 % 100, PriceSortItem[i]->date % 100, PriceSortItem[i]->category);
             }
+            /* ì¹´í…Œê³ ë¦¬ê°€ ê³¼ìë©´ */
             else if (PriceSortItem[i]->category == 2)
             {
                 printf("%s, %d, %02d-%02d-%02d, ê³¼ì\n", PriceSortItem[i]->name, PriceSortItem[i]->price, PriceSortItem[i]->date / 10000, PriceSortItem[i]->date / 100 % 100, PriceSortItem[i]->date % 100, PriceSortItem[i]->category);
             }
+            /* ì¹´í…Œê³ ë¦¬ê°€ ê³¼ì¼ì´ë©´ */
             else if (PriceSortItem[i]->category == 3)
             {
                 printf("%s, %d, %02d-%02d-%02d, ê³¼ì¼\n", PriceSortItem[i]->name, PriceSortItem[i]->price, PriceSortItem[i]->date / 10000, PriceSortItem[i]->date / 100 % 100, PriceSortItem[i]->date % 100, PriceSortItem[i]->category);
             }
+            /* ì¹´í…Œê³ ë¦¬ê°€ ê³ ê¸°ë©´ */
             else if (PriceSortItem[i]->category == 4)
             {
                 printf("%s, %d, %02d-%02d-%02d, ê³ ê¸°\n", PriceSortItem[i]->name, PriceSortItem[i]->price, PriceSortItem[i]->date / 10000, PriceSortItem[i]->date / 100 % 100, PriceSortItem[i]->date % 100, PriceSortItem[i]->category);
             }
+            /* ì¹´í…Œê³ ë¦¬ê°€ ë¼ë©´ì´ë©´ */
             else if (PriceSortItem[i]->category == 5)
             {
                 printf("%s, %d, %02d-%02d-%02d, ë¼ë©´\n", PriceSortItem[i]->name, PriceSortItem[i]->price, PriceSortItem[i]->date / 10000, PriceSortItem[i]->date / 100 % 100, PriceSortItem[i]->date % 100, PriceSortItem[i]->category);
             }
         }
+
         printf("\n\n** í™•ì¸í•˜ì…¨ë‹¤ë©´ ì•„ë¬´ í‚¤ë‚˜ ì…ë ¥í•´ì£¼ì„¸ìš”. **\n");
->>>>>>> 2573e5326daedbbf95e0e7bfb3ffd4b772f48115
         char a[300];
         scanf("%s", &a);
         system("cls");
     }
-<<<<<<< HEAD
-    /* Ä«Å×°í¸®º° Á¶È¸ */
-    else if (choice == 3)
-    {
-        int ctg = 0;
-        printf("Á¶È¸ÇÏ½Ç Ä«Å×°í¸®¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä.\n");
-        printf(" * À½·á ( 1À» ´©¸£¼¼¿ä )\n");
-        printf(" * °úÀÚ ( 2¸¦ ´©¸£¼¼¿ä )\n");
-        printf(" * °úÀÏ ( 3À» ´©¸£¼¼¿ä )\n");
-        printf(" * °í±â ( 4¸¦ ´©¸£¼¼¿ä )\n");
-        printf(" * ¶ó¸é ( 5¸¦ ´©¸£¼¼¿ä )\n\n");
-        printf("Ä«Å×°í¸®¸¦ ¼±ÅÃÇÏ¼¼¿ä : ");
-        scanf("%d", &ctg);
-        system("cls");
-        printf("¹°Ç°¸í, ¹°Ç° °¡°İ, µî·ÏÀÏ, Ä«Å×°í¸®\n");
-
-        /* ¼øÂ÷ Å½»ö */
-=======
+    /* ì¹´í…Œê³ ë¦¬ë³„ ì¡°íšŒ */
     else if (choice == 3)
     {
         int ctg = 0;
@@ -666,36 +447,25 @@ void showAllItem(Node *heads)
         scanf("%d", &ctg);
         system("cls");
         printf("ë¬¼í’ˆëª…, ë¬¼í’ˆ ê°€ê²©, ë“±ë¡ì¼, ì¹´í…Œê³ ë¦¬\n");
->>>>>>> 2573e5326daedbbf95e0e7bfb3ffd4b772f48115
+
+        /* ìˆœì°¨ íƒìƒ‰ */
         heads = heads->next;
         while (heads != NULL)
         {
             if (heads->category == ctg)
             {
-<<<<<<< HEAD
-                printf("%s, %d, %02d-%02d-%02d, À½·á\n", heads->name, heads->price, heads->date / 10000, heads->date / 100 % 100, heads->date % 100, heads->category);
-            }
-            heads = heads->next;
-        }
-        printf("\n\n** È®ÀÎÇÏ¼Ì´Ù¸é ¾Æ¹« Å°³ª ÀÔ·ÂÇØÁÖ¼¼¿ä. **\n");
-=======
                 printf("%s, %d, %02d-%02d-%02d, ìŒë£Œ\n", heads->name, heads->price, heads->date / 10000, heads->date / 100 % 100, heads->date % 100, heads->category);
             }
             heads = heads->next;
         }
         printf("\n\n** í™•ì¸í•˜ì…¨ë‹¤ë©´ ì•„ë¬´ í‚¤ë‚˜ ì…ë ¥í•´ì£¼ì„¸ìš”. **\n");
->>>>>>> 2573e5326daedbbf95e0e7bfb3ffd4b772f48115
         char a[300];
         scanf("%s", &a);
         system("cls");
     }
     else
     {
-<<<<<<< HEAD
-        printf("¿À·ù! Àß¸øµÈ ÀÔ·Â°ªÀÔ´Ï´Ù. ´Ù½Ã ½ÃµµÇØÁÖ¼¼¿ä.\n");
-=======
         printf("ì˜¤ë¥˜! ì˜ëª»ëœ ì…ë ¥ê°’ì…ë‹ˆë‹¤. ë‹¤ì‹œ ì‹œë„í•´ì£¼ì„¸ìš”.\n");
->>>>>>> 2573e5326daedbbf95e0e7bfb3ffd4b772f48115
     }
 }
 
@@ -704,21 +474,14 @@ void showAllItem(Node *heads)
 int main()
 {
     init();
-<<<<<<< HEAD
-    printf("Nabin Market ¦¡¦¡¦¡¦¡¦¡¦¡¦¡\n\n");
-=======
     printf("Nabin Market â”€â”€â”€â”€â”€â”€â”€\n\n");
->>>>>>> 2573e5326daedbbf95e0e7bfb3ffd4b772f48115
 
     printf(" * ë‚˜ë¹ˆ ë§ˆì¼“ì— ì˜¤ì‹  ê²ƒì„ í™˜ì˜í•©ë‹ˆë‹¤. \n");
     printf(" * ë‚˜ë¹ˆ ë§ˆì¼“ì€ C++ë¡œ êµ¬í˜„í•œ ë§¤ì¥ ë¬¼í’ˆ ê´€ë¦¬ í”„ë¡œê·¸ë¨ì…ë‹ˆë‹¤. \n\n");
 
     while (1)
     {
-<<<<<<< HEAD
-        /* ¹°Ç° °³¼ö ±¸ÇÏ±â */
-=======
->>>>>>> 2573e5326daedbbf95e0e7bfb3ffd4b772f48115
+        /* ë¬¼í’ˆ ê°œìˆ˜ êµ¬í•˜ê¸° */
         int count = 0;
         struct Node *countHead = head;
         while (countHead != NULL)
@@ -727,40 +490,6 @@ int main()
             countHead = countHead->next;
         }
 
-<<<<<<< HEAD
-        printf("³ªºó ¸¶ÄÏ ÇöÈ² ¦¡¦¡¦¡¦¡¦¡\n\n");
-
-        printf(" * ³ªºó ¸¶ÄÏ ÇöÀç ¹°Ç° °³¼ö (µ¥ÀÌÅÍ °³¼ö) : %d\n", count - 1);
-        printf(" * ³ªºó ¸¶ÄÏ ÇöÀç Áø¿­ °ø°£ (¸Ş¸ğ¸® Å©±â) : %d\n\n", (count - 1) * (sizeof(head)));
-
-        printf("³ªºó ¸¶ÄÏ ¸Ş´º ¦¡¦¡¦¡¦¡¦¡\n\n");
-
-        printf(" * ¹°Ç° ¸ñ·Ï Á¶È¸ ( 1À» ´©¸£¼¼¿ä )\n");
-        printf(" * Æ¯Á¤ ¹°Ç° °Ë»ö ( 2¸¦ ´©¸£¼¼¿ä )\n");
-        printf(" * ¸¶ÄÏ ¹°Ç° Ãß°¡ ( 3¸¦ ´©¸£¼¼¿ä )\n");
-        printf(" * ¸¶ÄÏ ¹°Ç° »èÁ¦ ( 4À» ´©¸£¼¼¿ä )\n");
-        printf(" * ¹°Ç° Âò & ±¸¸Å ( 5¸¦ ´©¸£¼¼¿ä )\n\n");
-        printf("¸Ş´º¸¦ ¼±ÅÃÇÏ¼¼¿ä : ");
-        scanf("%d", &userselect);
-
-        if (userselect == 1) // Á¶È¸
-        {
-            showAllItem(head);
-        }
-        else if (userselect == 2) // °Ë»ö
-        {
-            findItem(head);
-        }
-        else if (userselect == 3) // Ãß°¡
-        {
-            insertItem();
-        }
-        else if (userselect == 4) // »èÁ¦
-        {
-            deleteItem(head);
-        }
-        else if (userselect == 5) // ±¸¸Å
-=======
         printf("ë‚˜ë¹ˆ ë§ˆì¼“ í˜„í™© â”€â”€â”€â”€â”€\n\n");
 
         printf(" * ë‚˜ë¹ˆ ë§ˆì¼“ í˜„ì¬ ë¬¼í’ˆ ê°œìˆ˜ (ë°ì´í„° ê°œìˆ˜) : %d\n", count - 1);
@@ -776,30 +505,25 @@ int main()
         printf("ë©”ë‰´ë¥¼ ì„ íƒí•˜ì„¸ìš” : ");
         scanf("%d", &userselect);
 
-        if (userselect == 1)
+        if (userselect == 1) // ì¡°íšŒ
         {
             showAllItem(head);
         }
-        else if (userselect == 2)
+        else if (userselect == 2) // ê²€ìƒ‰
         {
             findItem(head);
         }
-        else if (userselect == 3)
+        else if (userselect == 3) // ì¶”ê°€
         {
             insertItem();
         }
-        else if (userselect == 4)
+        else if (userselect == 4) // ì‚­ì œ
         {
-            /* deleteItem(); */
+            deleteItem(head);
         }
-        else if (userselect == 5)
->>>>>>> 2573e5326daedbbf95e0e7bfb3ffd4b772f48115
+        else if (userselect == 5) // êµ¬ë§¤
         {
             /* buyItem(); */
         }
     }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 2573e5326daedbbf95e0e7bfb3ffd4b772f48115
