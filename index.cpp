@@ -2,6 +2,9 @@
 #include <malloc.h>
 #include <unistd.h>
 #include <windows.h>
+#include <stack>
+
+using namespace std;
 
 /* 물품 목록 연결리스트 정의 */
 
@@ -21,6 +24,8 @@ int userselect;
 /* 물품 목록 연결리스트 선언 */
 
 Node *head = (Node *)malloc(sizeof(Node));
+stack<Node *> Stack;
+
 /* 연결리스트 초기화 변수 */
 
 void init()
@@ -28,7 +33,7 @@ void init()
     head->next = NULL;
 }
 
-/* 물품 추가 함수 */
+/* 물품 삭제 함수 */
 
 void deleteItem(Node *heads)
 {
@@ -68,9 +73,11 @@ void deleteItem(Node *heads)
         }
     }
     system("cls");
+    int cnt = 0;
     printf("물품명, 물품 가격, 등록일, 카테고리\n");
     for (int i = 0; i < count - 1; i++)
     {
+        cnt++;
         /* 카테고리가 음료면 */
         if (DateSortItem[i]->category == 1)
         {
@@ -101,10 +108,19 @@ void deleteItem(Node *heads)
         }
     }
 
-    printf("\n\n삭제하고 싶은 상품의 번호를 선택해주세요\n");
     int index;
+    if (cnt <= 0)
+    {
+        printf("삭제할 물품이 없습니다.");
+        printf("\n\n** 확인하셨다면 아무 키나 입력해주세요. **\n");
+        char a[300];
+        scanf("%s", &a);
+        system("cls");
+        return;
+    }
+    printf("\n\n삭제하고 싶은 상품의 번호를 선택해주세요\n");
     scanf("%d", &index);
-
+    system("cls");
     if (index == 1)
     {
         Node *temp2 = head;
@@ -123,7 +139,6 @@ void deleteItem(Node *heads)
 
     prev->next = temp1->next;
     free(temp1);
-    system("cls");
 }
 
 Node *insertItem()
@@ -469,6 +484,116 @@ void showAllItem(Node *heads)
     }
 }
 
+void pinItem(Node *heads)
+{
+    Node *DateSortItem[1000];
+    Node *temp[2];
+    int i = 0, count = 0;
+    struct Node *countHead = head;
+
+    heads = heads->next;
+
+    /* 배열에 물품 목록 담기 */
+    while (heads != NULL)
+    {
+        DateSortItem[i] = heads;
+        heads = heads->next;
+        i++;
+    }
+
+    /* 물품 개수 구하기 */
+    while (countHead != NULL)
+    {
+        count++;
+        countHead = countHead->next;
+    }
+
+    /* 버블 정렬 */
+    for (int i = count - 2; i > 0; i--)
+    {
+        for (int j = 0; j < i; j++)
+        {
+            if (DateSortItem[j]->date > DateSortItem[j + 1]->date)
+            {
+                temp[0] = DateSortItem[j];
+                DateSortItem[j] = DateSortItem[j + 1];
+                DateSortItem[j + 1] = temp[0];
+            }
+        }
+    }
+    system("cls");
+    int menu = 0;
+
+    printf("* 물품 찜하기 ( 1을 누르세요 )\n");
+    printf("* 찜 계산하기 ( 2를 누르세요 )\n\n");
+    printf("메뉴를 선택하세요 : ");
+    scanf("%d", &menu);
+    int cnt = 0;
+    if (menu == 1)
+    {
+        printf("물품명, 물품 가격, 등록일, 카테고리\n");
+        for (int i = 0; i < count - 1; i++)
+        {
+            cnt++;
+            /* 카테고리가 음료면 */
+            if (DateSortItem[i]->category == 1)
+            {
+                printf("[%d]%s, %d, %02d-%02d-%02d, 음료\n", i + 1, DateSortItem[i]->name, DateSortItem[i]->price, DateSortItem[i]->date / 10000, DateSortItem[i]->date / 100 % 100, DateSortItem[i]->date % 100, DateSortItem[i]->category);
+            }
+            /* 카테고리가 과자면 */
+            else if (DateSortItem[i]->category == 2)
+            {
+                printf("[%d]%s, %d, %02d-%02d-%02d, 과자\n", i + 1, DateSortItem[i]->name, DateSortItem[i]->price, DateSortItem[i]->date / 10000, DateSortItem[i]->date / 100 % 100, DateSortItem[i]->date % 100, DateSortItem[i]->category);
+            }
+
+            /* 카테고리가 과일이면 */
+            else if (DateSortItem[i]->category == 3)
+            {
+                printf("[%d]%s, %d, %02d-%02d-%02d, 과일\n", i + 1, DateSortItem[i]->name, DateSortItem[i]->price, DateSortItem[i]->date / 10000, DateSortItem[i]->date / 100 % 100, DateSortItem[i]->date % 100, DateSortItem[i]->category);
+            }
+
+            /* 카테고리가 고기면 */
+            else if (DateSortItem[i]->category == 4)
+            {
+                printf("[%d]%s, %d, %02d-%02d-%02d, 고기\n", i + 1, DateSortItem[i]->name, DateSortItem[i]->price, DateSortItem[i]->date / 10000, DateSortItem[i]->date / 100 % 100, DateSortItem[i]->date % 100, DateSortItem[i]->category);
+            }
+
+            /* 카테고리가 라면이면 */
+            else if (DateSortItem[i]->category == 5)
+            {
+                printf("[%d]%s, %d, %02d-%02d-%02d, 라면\n", i + 1, DateSortItem[i]->name, DateSortItem[i]->price, DateSortItem[i]->date / 10000, DateSortItem[i]->date / 100 % 100, DateSortItem[i]->date % 100, DateSortItem[i]->category);
+            }
+        }
+        int index = 0;
+        printf("찜할 상품의 번호를 입력해주세요 : ");
+        scanf("%d", &index);
+        system("cls");
+        Stack.push(DateSortItem[index - 1]);
+        printf("%d번 상품 \"%s\"가 찜되었습니다!\n\n", index, Stack.top()->name);
+    }
+    else if (menu == 2)
+    {
+        int sum = 0;
+        system("cls");
+        while (1)
+        {
+            if (Stack.size() == 0)
+            {
+                printf("\n\n정산 완료! 총 합계 금액은 %d원입니다.", sum);
+                break;
+            }
+            printf("물품명 : %s, 가격 : %d, 정산중... \n", Stack.top()->name, Stack.top()->price);
+            sleep(1.5);
+            sum += Stack.top()->price;
+            Stack.pop();
+        }
+    }
+    printf("\n\n** 확인하셨다면 아무 키나 입력해주세요. **\n");
+    char a[300];
+    scanf("%s", &a);
+    system("cls");
+}
+
 /* main function */
 
 int main()
@@ -521,9 +646,9 @@ int main()
         {
             deleteItem(head);
         }
-        else if (userselect == 5) // 구매
+        else if (userselect == 5) // 찜
         {
-            /* buyItem(); */
+            pinItem(head);
         }
     }
 }
